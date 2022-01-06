@@ -22,6 +22,23 @@ def get_videos(driver):
   videos = driver.find_elements(By.TAG_NAME, VIDEO_DIV_TAG)
   return videos
 
+def parse_video(video):
+  title_tag = video.find_element(By.ID, 'video-title')
+  title = title_tag.text
+  url = title_tag.get_attribute('href')
+  thumbnail_tag = video.find_element(By.TAG_NAME, 'img')
+  thumbnail_url = thumbnail_tag.get_attribute('src')
+
+  channel_div = video.find_element(By.CLASS_NAME, 'ytd-channel-name')
+  channel_name = channel_div.text
+  description = video.find_element(By.ID, 'description-text').text
+
+  return {
+    'title': title
+    'url': url
+    'thumbnail_url': thumbnail_url
+    
+  }
 
 if __name__ == "__main__":
   print('Creating the driver')
@@ -37,14 +54,11 @@ if __name__ == "__main__":
   #title, url, thumbnail_url, channel, views, uploaded, description
 
   video = videos[0]
-  title_tag = video.find_element(By.ID, 'video-title')
-  title = title_tag.text
-  url = title_tag.get_attribute('href')
-  thumbnail_tag = video.find_element(By.TAG_NAME, 'img').get_attribute('src')
-  thumbnail_url = thumbnail_tag.get_attribute('src')
+ 
 
-  channel_div = video.find_element(By.CLASS_NAME)
 
   print('Title:', title)
   print('URL:', url)
-  
+  print('Thumbnail url:', thumbnail_url)
+  print('Channel Name:', channel_name)
+  print('Description: ', description)
